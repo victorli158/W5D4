@@ -27,14 +27,25 @@ Game.prototype.isValidMove = function(startTowerIdx, endTowerIdx) {
   }
 };
 
+Game.prototype.move = function(startTowerIdx, endTowerIdx) {
+  if (this.isValidMove(startTowerIdx, endTowerIdx)) {
+    let movingDisc = this.stacks[startTowerIdx].pop();
+    this.stacks[endTowerIdx].push(movingDisc);
+  } else {
+    return false;
+  }
+  return true;
+};
+
 // let game = new Game();
 // game.promptMove(function(input1, input2) {
 //   console.log(`${input1}, ${input2}`);
 // });
 
-let game = new Game();
-game.stacks[0].push(2);
-game.stacks[1].push(1);
-game.stacks[2].push(3);
-console.log(game.isValidMove(0, 1));
-console.log(game.isValidMove(0, 2));
+// let game = new Game();
+// game.stacks[0].push(2);
+// game.stacks[1].push(1);
+// game.stacks[2].push(3);
+// console.log(game.move(0, 1));
+// console.log(game.stacks);
+// console.log(game.isValidMove(0, 2));
