@@ -19,7 +19,22 @@ Game.prototype.promptMove = function(cb) {
   });
 };
 
+Game.prototype.isValidMove = function(startTowerIdx, endTowerIdx) {
+  if (this.stacks[startTowerIdx].slice(-1)[0] < this.stacks[endTowerIdx].slice(-1)[0]) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // let game = new Game();
 // game.promptMove(function(input1, input2) {
 //   console.log(`${input1}, ${input2}`);
 // });
+
+let game = new Game();
+game.stacks[0].push(2);
+game.stacks[1].push(1);
+game.stacks[2].push(3);
+console.log(game.isValidMove(0, 1));
+console.log(game.isValidMove(0, 2));
