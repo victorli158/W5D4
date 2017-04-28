@@ -41,7 +41,13 @@ Game.prototype.print = function() {
   console.log(JSON.stringify(this.stacks));
 };
 
-
+Game.prototype.isWon = function() {
+  if (this.stacks[1].includes(1, 2, 3) || this.stacks[2].includes(1, 2, 3)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 // let game = new Game();
 // game.promptMove(function(input1, input2) {
@@ -49,9 +55,10 @@ Game.prototype.print = function() {
 // });
 
 // let game = new Game();
-// game.stacks[0].push(2);
-// game.stacks[1].push(1);
 // game.stacks[2].push(3);
+// game.stacks[2].push(2);
+// game.stacks[2].push(1);
+// console.log(game.isWon());
 // game.print();
 // console.log(game.move(0, 1));
 // console.log(game.stacks);
