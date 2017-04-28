@@ -7,20 +7,28 @@ const reader = readline.createInterface({
 
 class Game {
   constructor() {
-    this.stacks = [[], [], []];
+    this.stacks = [[3, 2, 1], [], []];
   }
 }
 
-Game.prototype.promptMove = function(cb) {
-  reader.question("Take disc from where?", function (startTowerIdx) {
-    reader.question("Put disc where?", function (endTowerIdx) {
-      cb(startTowerIdx, endTowerIdx);
+Game.prototype.promptMove = function(read, callback) {
+  this.print();
+  reader.question("Take disc from where?", function (start) {
+    const startTowerIdx = parseInt(start);
+    reader.question("Put disc where?", function (end) {
+      const endTowerIdx = parseInt(end);
+      callback(startTowerIdx, endTowerIdx);
     });
   });
 };
 
 Game.prototype.isValidMove = function(startTowerIdx, endTowerIdx) {
-  if (this.stacks[startTowerIdx].slice(-1)[0] < this.stacks[endTowerIdx].slice(-1)[0]) {
+  const startTower = this.stacks[startTowerIdx];
+  const endTower = this.stacks[endTowerIdx];
+
+  if (this.stacks[endTowerIdx].length === 0) {
+    return true;
+  } else if (this.stacks[startTowerIdx].slice(-1)[0] < this.stacks[endTowerIdx].slice(-1)[0]) {
     return true;
   } else {
     return false;
@@ -49,15 +57,31 @@ Game.prototype.isWon = function() {
   }
 };
 
+Game.prototype.run = function(read, completionCallBack) {
+  this.promptMove(reader, (startTowerIdx, endTowerIdx) => {
+    if (!this.move(startTowerIdx, endTowerIdx)) {
+      console.log("Invalid move!");
+    }
+
+    if (!this.isWon()) {
+      this.run(reader, completionCallBack);
+    } else {
+      this.print();
+      console.log("You win!");
+      completionCallBack();
+    }
+  });
+};
+
+module.exports = Game;
+
 // let game = new Game();
 // game.promptMove(function(input1, input2) {
 //   console.log(`${input1}, ${input2}`);
 // });
 
 // let game = new Game();
-// game.stacks[2].push(3);
-// game.stacks[2].push(2);
-// game.stacks[2].push(1);
+// game.run(reader, completionCallBack);
 // console.log(game.isWon());
 // game.print();
 // console.log(game.move(0, 1));
